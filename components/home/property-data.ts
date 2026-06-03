@@ -25,6 +25,98 @@ export type PropertyListing = {
   surface: "collection" | "market";
 };
 
+type PropertyImageTheme = {
+  sky: string;
+  building: string;
+  accent: string;
+  floor: string;
+  foliage?: string;
+  secondBuilding?: string;
+  shape: "villa" | "penthouse" | "house" | "apartment" | "loft" | "cabin" | "studio";
+};
+
+function toDataUri(svg: string) {
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function createPropertyImage(title: string, location: string, theme: PropertyImageTheme) {
+  const shape =
+    theme.shape === "villa"
+      ? `
+        <rect x="174" y="126" width="264" height="132" rx="14" fill="${theme.building}" opacity="0.98"/>
+        <rect x="116" y="156" width="124" height="102" rx="12" fill="${theme.secondBuilding ?? theme.building}" opacity="0.86"/>
+        <rect x="446" y="158" width="96" height="100" rx="12" fill="${theme.secondBuilding ?? theme.building}" opacity="0.86"/>
+        <rect x="246" y="98" width="84" height="42" rx="8" fill="${theme.accent}" opacity="0.85"/>
+        <rect x="304" y="168" width="42" height="90" rx="8" fill="${theme.accent}" opacity="0.62"/>
+      `
+      : theme.shape === "penthouse"
+        ? `
+          <rect x="146" y="118" width="330" height="132" rx="16" fill="${theme.building}" opacity="0.96"/>
+          <rect x="206" y="80" width="210" height="54" rx="12" fill="${theme.accent}" opacity="0.82"/>
+          <rect x="186" y="136" width="52" height="120" rx="8" fill="${theme.secondBuilding ?? theme.building}" opacity="0.72"/>
+          <rect x="404" y="136" width="52" height="120" rx="8" fill="${theme.secondBuilding ?? theme.building}" opacity="0.72"/>
+        `
+        : theme.shape === "house"
+          ? `
+            <path d="M140 190 300 90l160 100v86H140z" fill="${theme.building}" opacity="0.98"/>
+            <rect x="190" y="196" width="120" height="78" rx="12" fill="${theme.accent}" opacity="0.8"/>
+            <rect x="338" y="180" width="84" height="114" rx="12" fill="${theme.secondBuilding ?? theme.building}" opacity="0.84"/>
+          `
+          : theme.shape === "apartment"
+            ? `
+              <rect x="194" y="86" width="212" height="184" rx="18" fill="${theme.building}" opacity="0.97"/>
+              <rect x="226" y="114" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+              <rect x="282" y="114" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+              <rect x="338" y="114" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+              <rect x="226" y="172" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+              <rect x="282" y="172" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+              <rect x="338" y="172" width="42" height="42" rx="8" fill="${theme.accent}" opacity="0.72"/>
+            `
+            : theme.shape === "loft"
+              ? `
+                <rect x="176" y="116" width="248" height="148" rx="14" fill="${theme.building}" opacity="0.96"/>
+                <path d="M176 156h248" stroke="${theme.accent}" stroke-width="10" opacity="0.32"/>
+                <rect x="214" y="148" width="160" height="70" rx="10" fill="${theme.accent}" opacity="0.7"/>
+              `
+              : theme.shape === "cabin"
+                ? `
+                  <path d="M176 184 300 92l124 92v88H176z" fill="${theme.building}" opacity="0.98"/>
+                  <rect x="252" y="198" width="96" height="74" rx="10" fill="${theme.accent}" opacity="0.72"/>
+                `
+                : `
+                  <rect x="206" y="112" width="188" height="148" rx="16" fill="${theme.building}" opacity="0.97"/>
+                  <rect x="236" y="144" width="128" height="84" rx="10" fill="${theme.accent}" opacity="0.74"/>
+                `;
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="${title} in ${location}">
+      <defs>
+        <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="${theme.sky}" />
+          <stop offset="100%" stop-color="#eef6f6" />
+        </linearGradient>
+        <linearGradient id="sun" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="${theme.accent}" stop-opacity="0.2" />
+        </linearGradient>
+      </defs>
+      <rect width="640" height="480" fill="url(#sky)" />
+      <circle cx="506" cy="92" r="56" fill="url(#sun)" />
+      <circle cx="164" cy="104" r="24" fill="${theme.accent}" opacity="0.18" />
+      <path d="M0 314C92 288 168 288 232 312c64 24 118 26 184 8 66-18 128-18 224 6v166H0z" fill="${theme.floor}" />
+      <path d="M0 322c94-18 170-18 232 0 66 18 120 18 180 0 66-18 130-18 228 0v18c-98-16-162-16-228 0-60 18-114 18-180 0-62-18-138-18-232 0z" fill="${theme.foliage ?? theme.accent}" opacity="0.16" />
+      <g transform="translate(0 74)">
+        ${shape}
+      </g>
+      <rect x="20" y="400" width="280" height="58" rx="18" fill="rgba(255,255,255,0.74)" stroke="rgba(25,50,47,0.06)" />
+      <text x="52" y="423" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#19322f">${location}</text>
+      <text x="52" y="442" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#5c706d">Premium listing</text>
+    </svg>
+  `;
+
+  return toDataUri(svg);
+}
+
 export const propertyTypes: Array<{
   label: string;
   value: "all" | PropertyType;
@@ -56,8 +148,13 @@ export const properties: PropertyListing[] = [
     beds: 5,
     baths: 4.5,
     area: 4200,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCra-FKp81t0_OM8bWD55m2o9OOSnR_v7D0UilyExMImxyIcr9tIMZ2Py3HcC0ra_MtSsBkduMcwxUNKI9_iSXFFr_YRON1SF9hNM3fcYy-uG7N7uusL0Z367WINi1V7_GwfNQx-gsbUqLtzVi4ivFyqFQGb4qBs79bALeSFb6i3_ZnJnI1VVrN-VeZYHjfYyQI5C6zy90N3uxWZpwzIBhNoUDKKQjQ8EOEYPoyPTzhnh6b6AS3dkkFJ8t4xSDC6qjhMrQUoUPnAeM",
+    image: createPropertyImage("The Glass Pavilion", "Beverly Hills, California", {
+      sky: "#98c3f0",
+      building: "#203a36",
+      accent: "#d9ecc8",
+      floor: "#4f7f8c",
+      shape: "villa",
+    }),
     badge: "Exclusive",
     featured: true,
     surface: "collection",
@@ -72,8 +169,13 @@ export const properties: PropertyListing[] = [
     beds: 3,
     baths: 3,
     area: 2100,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDurAGHzg_fpQxFal-obkFVy1Q3WLPdueAQpz0itcQiRV-WfvulnBEDJbNeV8J06q4mX7PTtXYVJjX4-mHVr_khZLZxQ_s8f6fruGqzeqALyMu8wEHRK1EsOs9f4_jPmS7FxcdzrDkR88Wz0GjaPLXkTZRoJQfur59rxYRLi-WYcW-VU_gKS39CPLOMlftvqGvW0IOk5tXgst5mJ4WQM-ICN4vkdel9ido9YFUQga0OI10i6NSe5W4owt33-2YRi_b_ltdZW2QZC5s",
+    image: createPropertyImage("Azure Heights Penthouse", "Downtown, Vancouver", {
+      sky: "#cad4df",
+      building: "#33424a",
+      accent: "#d9ecc8",
+      floor: "#7f8f9a",
+      shape: "penthouse",
+    }),
     badge: "New Arrival",
     featured: true,
     surface: "collection",
@@ -88,8 +190,13 @@ export const properties: PropertyListing[] = [
     beds: 3,
     baths: 2,
     area: 120,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDuQ9M7U6euA6_cXmYuXnej-N5IuawAW8ds-4G1mzfqmiBc13qXsPhf9_j_zTB8gfEunrBho8xMsxYwCw_pl8fsxbxRkmyvLR1N9Tiye5ZJG7fwlLn9MwyBanXYhE0emGwp59es1FEyQTRQbmXLUKO74Yj34ZHqrqIkOtMKhP8CmRFvfoHT5LAe10105vUhKNkxIBvtt530nfLigSUTemOOcJMVNmsgactntRJUwOBU_TZzND7BYtDklr8uZcNYlQOK5U74-ufIf-E",
+    image: createPropertyImage("Modern Family Home", "123 Pine St, Seattle", {
+      sky: "#94c7f4",
+      building: "#2d4d45",
+      accent: "#d9ecc8",
+      floor: "#6f9676",
+      shape: "house",
+    }),
     badge: "For Sale",
     featured: false,
     surface: "market",
@@ -104,8 +211,13 @@ export const properties: PropertyListing[] = [
     beds: 1,
     baths: 1,
     area: 85,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB4zNatD3vePhIZAi6OHHJKmamYSgeBNSKjEt32tvkkf4s6aBXCF8R4LNfDfPa9leA0t6N1OKOcP358WwZrnosbCBxSM7EaY2_P7qkx3MinRgmHQn7RvleNTwy8cLigMoR3iv0u83chBVbZYI6BcNMcqv80W-l1pIUgIWZcDIXEqtUatrsojSGfM0lTNDZpkBntBUkRY6NB4ZUymYNYvTHXKbO8NZ6N6uoyuuHqcaRWKzHCNXkOR3p-_EVFAHR8QwijIY_m1mefPZ4",
+    image: createPropertyImage("Urban Loft", "456 Elm Ave, Portland", {
+      sky: "#d6c8b4",
+      building: "#5d4e46",
+      accent: "#d9ecc8",
+      floor: "#c1b29d",
+      shape: "loft",
+    }),
     badge: "For Rent",
     featured: false,
     surface: "market",
@@ -120,8 +232,13 @@ export const properties: PropertyListing[] = [
     beds: 2,
     baths: 2,
     area: 98,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuARQWC19e7mleUpjb8CWLztEv_svJeRFOaC2i-9r9GctFuX5Barzhfai9wNM1WW8bcGlqdFM32d3KPf7SItom5ijdHOz5rGGQPeT7PlWs8-y9LkfcsHLQqsLxalhxP94XJo76_mAMp7T2dVj3hPKHNzTDLLiS6ujSdSsyo3onxQthp4ZkVE8op92gyTLUUucaGaxO8vJvyhH3HuWB07EPqT1WsW0lr9Of5lUPonjG9eiqE1XiJXTqzXUZQt5JorfPwCO1MioZA_Zro",
+    image: createPropertyImage("Highland Retreat", "789 Mountain Rd, Bend", {
+      sky: "#b6c4b0",
+      building: "#203025",
+      accent: "#d9ecc8",
+      floor: "#6f8a62",
+      shape: "cabin",
+    }),
     badge: "For Sale",
     featured: false,
     surface: "market",
@@ -136,8 +253,13 @@ export const properties: PropertyListing[] = [
     beds: 3,
     baths: 3,
     area: 180,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBGq4Phm0uDzCnjHAsnWpYTBVpOds_M6iOsJuRQQA5eUZHkztGgtc7eh_OE6wBeyW1-iZh7yyhROnvvmqkAZ9tyAWFGXk0FG52zU4kZ_EDLA0U0cRszy7byNXTeWe0_hS53SYmtCTEV8Y1AM-WxiIC38UMa15QwFDjXtCGQOxoh35K0Ol_70vfsxm0VqDbaWkr8tcEbLTLy0NXH_GcpGK4lAXizgxYOIlFWGyau-4OIfPZRpjCBDbz_qu3VlN201UUJGiuM9ajVd-U",
+    image: createPropertyImage("Sea View Penthouse", "321 Ocean Dr, Miami", {
+      sky: "#9fd2ef",
+      building: "#344b4f",
+      accent: "#d9ecc8",
+      floor: "#6aa7a1",
+      shape: "penthouse",
+    }),
     badge: "For Rent",
     featured: false,
     surface: "market",
@@ -152,8 +274,13 @@ export const properties: PropertyListing[] = [
     beds: 1,
     baths: 1,
     area: 50,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA1w-Hb1289NqZKon3VK8bpmMiCDYYiAMT5egzTINo9m9wSZRHv-k-1IGTVoL1NT8YeZXJHa87JPNDIPrtrbP7jChHq0ypXF90uByhC6VA9O788_B4FY8JVg4chbWN9bcrn9-9FvVvfZX8Aj60Iqg_C8CsCA9DEnJqi2rJvzmK5UP5z-9XRTRjBneAPCa8iGgGWBD9yYKsziN6vn0ePBDGo3inieQtmbr46W31p6UfQ649XRxTm7ygOY2J-jxW1r0qWs8i97KGpkTE",
+    image: createPropertyImage("Central Studio", "555 Main St, Chicago", {
+      sky: "#eadfc7",
+      building: "#4d4d45",
+      accent: "#d9ecc8",
+      floor: "#cfc0a0",
+      shape: "studio",
+    }),
     badge: "For Sale",
     featured: false,
     surface: "market",
@@ -168,8 +295,223 @@ export const properties: PropertyListing[] = [
     beds: 2,
     baths: 2,
     area: 110,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCfGXdY0g51ojSg0GMeTW9ndLY3mpKK3oMtWxo2nwd_dwi1pgn1Boi_ovaDGIFhUA7nwu3WdBch8ZuHxoHu3QfgM5ceAsp8pglRVyCROWNcy9zeDNP2wqLoevyKGcaEyFYHYpIx2KK46nLWthnHiHugmkKw48kJsL8IjMO1bL3T1Zwt8bvQDTTUHTgB3GqZ2RU2asRzF1jVg0rLw3LWXXTq0YF1CsbhlWpYOuCEpH5bB8zkBlbKXR4At_M46AL8rJqn5c6BrPD5PP8",
+    image: createPropertyImage("Garden Villa", "999 Oak Ln, Austin", {
+      sky: "#c9dfc5",
+      building: "#304a34",
+      accent: "#d9ecc8",
+      floor: "#7aa06e",
+      shape: "villa",
+    }),
+    badge: "For Rent",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "lakeside-residence",
+    title: "Lakeside Residence",
+    location: "18 Shoreline Dr, Lake Tahoe",
+    price: 2950000,
+    listingMode: "buy",
+    propertyType: "villa",
+    beds: 6,
+    baths: 5,
+    area: 530,
+    image: createPropertyImage("Lakeside Residence", "18 Shoreline Dr, Lake Tahoe", {
+      sky: "#9dc9ef",
+      building: "#274044",
+      accent: "#d9ecc8",
+      floor: "#5d8d96",
+      shape: "villa",
+    }),
+    badge: "Premier",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "skyline-apartment",
+    title: "Skyline Apartment",
+    location: "88 Market St, San Francisco",
+    price: 6100,
+    listingMode: "rent",
+    propertyType: "apartment",
+    beds: 2,
+    baths: 2,
+    area: 96,
+    image: createPropertyImage("Skyline Apartment", "88 Market St, San Francisco", {
+      sky: "#d3dbe7",
+      building: "#36444e",
+      accent: "#d9ecc8",
+      floor: "#8a99a8",
+      shape: "apartment",
+    }),
+    badge: "For Rent",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "cedar-house",
+    title: "Cedar House",
+    location: "204 Cedar Ln, Denver",
+    price: 975000,
+    listingMode: "buy",
+    propertyType: "house",
+    beds: 4,
+    baths: 3,
+    area: 214,
+    image: createPropertyImage("Cedar House", "204 Cedar Ln, Denver", {
+      sky: "#d9c7b1",
+      building: "#4c362b",
+      accent: "#d9ecc8",
+      floor: "#9a7f67",
+      shape: "house",
+    }),
+    badge: "For Sale",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "coastal-loft",
+    title: "Coastal Loft",
+    location: "640 Bay Blvd, San Diego",
+    price: 4100,
+    listingMode: "rent",
+    propertyType: "loft",
+    beds: 1,
+    baths: 1,
+    area: 78,
+    image: createPropertyImage("Coastal Loft", "640 Bay Blvd, San Diego", {
+      sky: "#b6e0ef",
+      building: "#5d6a70",
+      accent: "#d9ecc8",
+      floor: "#7db6c1",
+      shape: "loft",
+    }),
+    badge: "For Rent",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "monarch-penthouse",
+    title: "Monarch Penthouse",
+    location: "500 King St, New York",
+    price: 7250000,
+    listingMode: "buy",
+    propertyType: "penthouse",
+    beds: 4,
+    baths: 4.5,
+    area: 360,
+    image: createPropertyImage("Monarch Penthouse", "500 King St, New York", {
+      sky: "#c8d0dc",
+      building: "#27333c",
+      accent: "#d9ecc8",
+      floor: "#6d7b88",
+      shape: "penthouse",
+    }),
+    badge: "Signature",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "pine-cabin",
+    title: "Pine Cabin",
+    location: "92 Forest Rd, Asheville",
+    price: 2400,
+    listingMode: "rent",
+    propertyType: "cabin",
+    beds: 2,
+    baths: 1,
+    area: 72,
+    image: createPropertyImage("Pine Cabin", "92 Forest Rd, Asheville", {
+      sky: "#cad6c0",
+      building: "#243226",
+      accent: "#d9ecc8",
+      floor: "#6c865b",
+      shape: "cabin",
+    }),
+    badge: "For Rent",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "atrium-studio",
+    title: "Atrium Studio",
+    location: "11 Orchard Ave, Boston",
+    price: 475000,
+    listingMode: "buy",
+    propertyType: "studio",
+    beds: 1,
+    baths: 1,
+    area: 48,
+    image: createPropertyImage("Atrium Studio", "11 Orchard Ave, Boston", {
+      sky: "#e6d9c7",
+      building: "#51453d",
+      accent: "#d9ecc8",
+      floor: "#c2b19b",
+      shape: "studio",
+    }),
+    badge: "For Sale",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "harbor-apartment",
+    title: "Harbor Apartment",
+    location: "77 Dockside Ave, Seattle",
+    price: 3650,
+    listingMode: "rent",
+    propertyType: "apartment",
+    beds: 2,
+    baths: 2,
+    area: 88,
+    image: createPropertyImage("Harbor Apartment", "77 Dockside Ave, Seattle", {
+      sky: "#c8e2ef",
+      building: "#3d4e54",
+      accent: "#d9ecc8",
+      floor: "#7fa5b2",
+      shape: "apartment",
+    }),
+    badge: "For Rent",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "ridge-villa",
+    title: "Ridge Villa",
+    location: "901 Summit Dr, Boulder",
+    price: 1840000,
+    listingMode: "buy",
+    propertyType: "villa",
+    beds: 5,
+    baths: 4,
+    area: 280,
+    image: createPropertyImage("Ridge Villa", "901 Summit Dr, Boulder", {
+      sky: "#b8ccce",
+      building: "#30454a",
+      accent: "#d9ecc8",
+      floor: "#71878c",
+      shape: "villa",
+    }),
+    badge: "Limited",
+    featured: false,
+    surface: "market",
+  },
+  {
+    id: "walnut-townhouse",
+    title: "Walnut Townhouse",
+    location: "303 Walnut St, Philadelphia",
+    price: 2950,
+    listingMode: "rent",
+    propertyType: "house",
+    beds: 3,
+    baths: 2,
+    area: 142,
+    image: createPropertyImage("Walnut Townhouse", "303 Walnut St, Philadelphia", {
+      sky: "#ddcfb8",
+      building: "#5a4630",
+      accent: "#d9ecc8",
+      floor: "#ad8c63",
+      shape: "house",
+    }),
     badge: "For Rent",
     featured: false,
     surface: "market",

@@ -41,13 +41,13 @@ export function PropertyCard({ property, variant = "market" }: PropertyCardProps
         isFeatured ? "flex flex-col" : "flex h-full flex-col",
       )}
     >
-      <div className={cn("relative overflow-hidden", isFeatured ? "aspect-4/3" : "aspect-4/3")}>
+      <div className="relative aspect-4/3 overflow-hidden">
         <Image
           src={property.image}
           alt={property.title}
           fill
           sizes={isFeatured ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"}
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
           priority={isFeatured}
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />

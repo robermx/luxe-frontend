@@ -20,21 +20,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Quick Publish
-
-If you want a fast Git flow with a safety check, use:
-
-```bash
-pnpm ship
-```
-
-That command will:
-
-1. detect local changes,
-2. show a short summary,
-3. ask for confirmation before `commit`,
-4. ask again before `push` to `origin`.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
