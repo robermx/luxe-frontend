@@ -63,11 +63,11 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ## Estructura relevante
 
-- [app/page.tsx](/Users/robmx/Projects/luxe/luxe-frontend/app/page.tsx): entrada de la home y fetch server-side.
-- [components/home/home-screen.tsx](/Users/robmx/Projects/luxe/luxe-frontend/components/home/home-screen.tsx): UI principal y controles de filtros/paginación.
-- [lib/supabase/home-properties.ts](/Users/robmx/Projects/luxe/luxe-frontend/lib/supabase/home-properties.ts): consultas y mapeo de propiedades.
-- [lib/supabase/server.ts](/Users/robmx/Projects/luxe/luxe-frontend/lib/supabase/server.ts): cliente servidor de Supabase.
-- [supabase/migrations/202606041700_create_properties.sql](/Users/robmx/Projects/luxe/luxe-frontend/supabase/migrations/202606041700_create_properties.sql): esquema y seed inicial.
+- app/page.tsx entrada de la home y fetch server-side.
+- components/home/home-screen.tsx: UI principal y controles de filtros/paginación.
+- lib/supabase/home-properties.ts: consultas y mapeo de propiedades.
+- lib/supabase/server.ts: cliente servidor de Supabase.
+- supabase/migrations/202606041700_create_properties.sql: esquema y seed inicial.
 
 ## Notas
 
