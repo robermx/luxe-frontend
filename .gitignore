@@ -10,9 +10,6 @@
 !.yarn/releases
 !.yarn/versions
 
-# codex
-/codex
-
 # agents/skils
 .agents/logs/
 .agents/cache/

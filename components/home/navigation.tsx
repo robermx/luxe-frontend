@@ -1,7 +1,8 @@
-import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+import Link from "next/link";
+import type { ButtonHTMLAttributes, ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
-type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type NavLinkProps = ComponentProps<typeof Link> & {
   active?: boolean;
 };
 
@@ -11,7 +12,7 @@ type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function NavLink({ active = false, className, children, ...props }: NavLinkProps) {
   return (
-    <a
+    <Link
       className={cn(
         "px-1 py-1 text-sm font-medium transition-colors",
         active
@@ -22,7 +23,7 @@ export function NavLink({ active = false, className, children, ...props }: NavLi
       {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 }
 

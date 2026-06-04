@@ -23,6 +23,7 @@ type RawSearchParams = Record<string, string | string[] | undefined>;
 
 type PropertyRow = {
   id: string;
+  slug: string;
   title: string;
   location: string;
   price: number;
@@ -31,7 +32,9 @@ type PropertyRow = {
   beds: number;
   baths: number;
   area: number;
-  image: string;
+  latitude: number;
+  longitude: number;
+  images_url: string[];
   badge: string;
   featured: boolean;
   surface: PropertySurface;
@@ -161,6 +164,7 @@ export async function getHomePropertiesPage(
 function mapPropertyRow(row: PropertyRow): PropertyListing {
   return {
     id: row.id,
+    slug: row.slug,
     title: row.title,
     location: row.location,
     price: Number(row.price),
@@ -169,7 +173,9 @@ function mapPropertyRow(row: PropertyRow): PropertyListing {
     beds: row.beds,
     baths: Number(row.baths),
     area: Number(row.area),
-    image: row.image,
+    latitude: Number(row.latitude),
+    longitude: Number(row.longitude),
+    imagesUrl: row.images_url ?? [],
     badge: row.badge,
     featured: row.featured,
     surface: row.surface,

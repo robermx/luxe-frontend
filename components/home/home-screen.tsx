@@ -1,19 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import {
   ArrowRightIcon,
-  BellIcon,
-  BuildingIcon,
   ChevronDownIcon,
   FilterIcon,
-  MenuIcon,
   SearchIcon,
 } from "@/components/home/icons";
 import { FilterChip } from "@/components/home/filter-chip";
-import { AvatarBadge, IconButton, NavLink } from "@/components/home/navigation";
 import {
   FeaturedPropertyCard,
   PropertyCard,
@@ -40,7 +36,6 @@ export function HomeScreen({
   filters,
   pagination,
 }: HomeScreenProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -146,76 +141,7 @@ export function HomeScreen({
 
   return (
     <div className="min-h-screen bg-(--color-clear) text-(--color-nordic)">
-      <header className="sticky top-0 z-50 border-b border-[rgba(25,50,47,0.08)] bg-[rgba(238,246,246,0.92)] backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2.5">
-            <div className="grid h-8 w-8 place-items-center rounded-full bg-(--color-nordic) text-white shadow-[0_8px_16px_rgba(25,50,47,0.18)]">
-              <BuildingIcon className="h-4.5 w-4.5" />
-            </div>
-            <span className="text-[20px] font-semibold tracking-[-0.02em]">
-              LuxeEstate
-            </span>
-          </div>
-
-          <nav className="hidden items-center gap-7 md:flex">
-            <NavLink href="#" active>
-              Buy
-            </NavLink>
-            <NavLink href="#">Rent</NavLink>
-            <NavLink href="#">Sell</NavLink>
-            <NavLink href="#">Saved Homes</NavLink>
-          </nav>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <IconButton aria-label="Search">
-              <SearchIcon className="h-5 w-5" />
-            </IconButton>
-            <IconButton aria-label="Notifications" badge>
-              <BellIcon className="h-5 w-5" />
-            </IconButton>
-            <div className="hidden h-9 w-px bg-[rgba(25,50,47,0.08)] sm:block" />
-            <div className="hidden sm:block">
-              <AvatarBadge />
-            </div>
-            <button
-              type="button"
-              className="grid h-10 w-10 place-items-center rounded-full border border-[rgba(25,50,47,0.08)] bg-white text-(--color-nordic) shadow-[0_6px_16px_rgba(25,50,47,0.06)] transition-colors hover:text-(--color-mosque) md:hidden"
-              onClick={() => setMobileMenuOpen((value) => !value)}
-              aria-label="Toggle navigation"
-            >
-              <MenuIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        <div
-          className={cn(
-            "overflow-hidden border-t border-[rgba(25,50,47,0.06)] bg-(--color-clear) transition-[max-height,opacity] duration-300 md:hidden",
-            mobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
-          )}
-        >
-          <div className="space-y-1 px-4 py-3 sm:px-6">
-            <NavLink
-              href="#"
-              active
-              className="block rounded-xl bg-[rgba(0,102,85,0.08)] px-3 py-2"
-            >
-              Buy
-            </NavLink>
-            <NavLink href="#" className="block rounded-xl px-3 py-2">
-              Rent
-            </NavLink>
-            <NavLink href="#" className="block rounded-xl px-3 py-2">
-              Sell
-            </NavLink>
-            <NavLink href="#" className="block rounded-xl px-3 py-2">
-              Saved Homes
-            </NavLink>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
         <section className="py-8 md:py-12">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-[clamp(2.8rem,5vw,4.9rem)] font-light leading-[0.95] tracking-tighter text-(--color-nordic)">
@@ -273,7 +199,7 @@ export function HomeScreen({
         <section className="mb-16">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
-              <h2 className="text-[28px] font-light tracking-[-0.04em] text-(--color-nordic)">
+              <h2 className="text-[28px] font-light tracking-tight text-(--color-nordic)">
                 Featured Collections
               </h2>
               <p className="mt-1 text-sm text-[rgba(25,50,47,0.65)]">
@@ -306,7 +232,7 @@ export function HomeScreen({
         <section>
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
-              <h2 className="text-[28px] font-light tracking-[-0.04em] text-(--color-nordic)">
+              <h2 className="text-[28px] font-light tracking-tight text-(--color-nordic)">
                 New in Market
               </h2>
               <p className="mt-1 text-sm text-[rgba(25,50,47,0.65)]">
@@ -363,7 +289,11 @@ export function HomeScreen({
             <>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {marketProperties.map((property) => (
-                  <PropertyCard key={property.id} property={property} />
+                  <PropertyCard
+                    key={property.id}
+                    property={property}
+                    href={`/properties/${property.slug}`}
+                  />
                 ))}
               </div>
 
@@ -385,7 +315,7 @@ export function HomeScreen({
                     )}
                   >
                     <span className="text-base leading-none">‹</span>
-                    Prvious
+                    Previous
                   </button>
 
                   <div className="flex items-center gap-2">

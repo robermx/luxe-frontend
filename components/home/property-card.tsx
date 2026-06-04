@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   AreaIcon,
@@ -16,6 +17,7 @@ import { cn } from "@/lib/utils";
 
 type PropertyCardProps = {
   property: PropertyListing;
+  href: string;
   variant?: "featured" | "market";
 };
 
@@ -34,19 +36,27 @@ function Spec({
   );
 }
 
-export function PropertyCard({ property, variant = "market" }: PropertyCardProps) {
+export function PropertyCard({ property, href, variant = "market" }: PropertyCardProps) {
   const isFeatured = variant === "featured";
+  const previewImage = property.imagesUrl[0] ?? "";
 
   return (
     <article
       className={cn(
-        "group overflow-hidden rounded-3xl bg-white shadow-[0_8px_28px_rgba(25,50,47,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(25,50,47,0.12)]",
+        "group relative overflow-hidden rounded-3xl bg-white shadow-[0_8px_28px_rgba(25,50,47,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(25,50,47,0.12)]",
         isFeatured ? "flex flex-col" : "flex h-full flex-col",
       )}
     >
+      <Link
+        href={href}
+        aria-label={`Open property details for ${property.title}`}
+        className="absolute inset-0 z-10 rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-mosque) focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      >
+        <span className="sr-only">{property.title}</span>
+      </Link>
       <div className="relative aspect-4/3 overflow-hidden">
         <Image
-          src={property.image}
+          src={previewImage}
           alt={property.title}
           fill
           sizes={isFeatured ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"}
@@ -65,13 +75,13 @@ export function PropertyCard({ property, variant = "market" }: PropertyCardProps
         <button
           type="button"
           aria-label={`Save ${property.title}`}
-          className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-white/92 text-(--color-nordic) shadow-[0_6px_18px_rgba(0,0,0,0.08)] transition-colors hover:bg-(--color-mosque) hover:text-white"
+          className="absolute right-3 top-3 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/92 text-(--color-nordic) shadow-[0_6px_18px_rgba(0,0,0,0.08)] transition-colors hover:bg-(--color-mosque) hover:text-white"
         >
           <HeartIcon className="h-5 w-5" />
         </button>
       </div>
 
-      <div className={cn("flex flex-1 flex-col", isFeatured ? "p-6" : "p-4")}>
+      <div className={cn("relative z-20 flex flex-1 flex-col", isFeatured ? "p-6" : "p-4")}>
         <div className="mb-2 flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3
@@ -125,5 +135,11 @@ export function PropertyCard({ property, variant = "market" }: PropertyCardProps
 }
 
 export function FeaturedPropertyCard({ property }: { property: PropertyListing }) {
-  return <PropertyCard property={property} variant="featured" />;
+  return (
+    <PropertyCard
+      property={property}
+      href={`/properties/${property.slug}`}
+      variant="featured"
+    />
+  );
 }

@@ -112,6 +112,14 @@ export function AreaIcon(props: IconProps) {
   );
 }
 
+export function CheckIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="m5 12 4 4L19 6" />
+    </BaseIcon>
+  );
+}
+
 export function FilterIcon(props: IconProps) {
   return (
     <BaseIcon {...props}>
@@ -130,6 +138,32 @@ export function ArrowRightIcon(props: IconProps) {
     <BaseIcon {...props}>
       <path d="M5 12h14" />
       <path d="m13 6 6 6-6 6" />
+    </BaseIcon>
+  );
+}
+
+export function HomeIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M4.5 11.5 12 5l7.5 6.5" />
+      <path d="M6.5 10.5V19h11v-8.5" />
+      <path d="M10 19v-5h4v5" />
+    </BaseIcon>
+  );
+}
+
+export function ChatIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M20 14a3 3 0 0 1-3 3H8l-4 4v-4a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h13a3 3 0 0 1 3 3z" />
+    </BaseIcon>
+  );
+}
+
+export function PhoneIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M7 3.8 9.2 6a1.8 1.8 0 0 1 0 2.5L7.9 9.8a13 13 0 0 0 6.3 6.3l1.3-1.3a1.8 1.8 0 0 1 2.5 0l2.2 2.2a1.8 1.8 0 0 1 0 2.5l-1 1a2.6 2.6 0 0 1-2.8.5C10.4 19.4 4.6 13.6 2.8 5.6a2.6 2.6 0 0 1 .5-2.8l1-1a1.8 1.8 0 0 1 2.5 0Z" />
     </BaseIcon>
   );
 }
