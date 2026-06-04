@@ -7,9 +7,12 @@ import {
   HeartIcon,
   PinIcon,
 } from "@/components/home/icons";
-import type { PropertyListing } from "@/components/home/property-data";
+import {
+  formatArea,
+  formatPrice,
+  type PropertyListing,
+} from "@/components/home/property-model";
 import { cn } from "@/lib/utils";
-import { formatArea, formatPrice } from "@/components/home/property-data";
 
 type PropertyCardProps = {
   property: PropertyListing;

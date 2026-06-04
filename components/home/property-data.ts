@@ -1,29 +1,4 @@
-export type ListingMode = "buy" | "rent";
-
-export type PropertyType =
-  | "house"
-  | "apartment"
-  | "villa"
-  | "penthouse"
-  | "studio"
-  | "cabin"
-  | "loft";
-
-export type PropertyListing = {
-  id: string;
-  title: string;
-  location: string;
-  price: number;
-  listingMode: ListingMode;
-  propertyType: PropertyType;
-  beds: number;
-  baths: number;
-  area: number;
-  image: string;
-  badge: string;
-  featured: boolean;
-  surface: "collection" | "market";
-};
+import type { PropertyListing } from "@/components/home/property-model";
 
 type PropertyImageTheme = {
   sky: string;
@@ -116,26 +91,6 @@ function createPropertyImage(title: string, location: string, theme: PropertyIma
 
   return toDataUri(svg);
 }
-
-export const propertyTypes: Array<{
-  label: string;
-  value: "all" | PropertyType;
-}> = [
-  { label: "All", value: "all" },
-  { label: "House", value: "house" },
-  { label: "Apartment", value: "apartment" },
-  { label: "Villa", value: "villa" },
-  { label: "Penthouse", value: "penthouse" },
-];
-
-export const listingModes: Array<{
-  label: string;
-  value: "all" | ListingMode;
-}> = [
-  { label: "All", value: "all" },
-  { label: "Buy", value: "buy" },
-  { label: "Rent", value: "rent" },
-];
 
 export const properties: PropertyListing[] = [
   {
@@ -517,15 +472,3 @@ export const properties: PropertyListing[] = [
     surface: "market",
   },
 ];
-
-export function formatArea(area: number) {
-  return `${area}m²`;
-}
-
-export function formatPrice(price: number, listingMode: ListingMode) {
-  const formatted = new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
-  }).format(price);
-
-  return listingMode === "rent" ? `$${formatted}/mo` : `$${formatted}`;
-}
