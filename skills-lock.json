@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "skills": {
+    "core-web-vitals": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "skillPath": "skills/core-web-vitals/SKILL.md",
+      "computedHash": "8e55888cc177e994e2cbfa0ee0a277e1273c6d43c8cf7649165f9e2f39489a48"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "next-best-practices": {
+      "source": "vercel-labs/next-skills",
+      "sourceType": "github",
+      "skillPath": "skills/next-best-practices/SKILL.md",
+      "computedHash": "f4678aef4ffc10a5ea64a91e57abe5a5081af813b06d58d565caf3e8ef56e26c"
+    },
+    "react-hook-form": {
+      "source": "pproenca/dot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/react-hook-form/SKILL.md",
+      "computedHash": "708cdc15b14a2826d05f1ac92a7d63f496a068cee5b4b5139c09cbcd68ba2409"
+    },
+    "seo": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "skillPath": "skills/seo/SKILL.md",
+      "computedHash": "1f1551c898c17a88a976b4f4aa84e17886f115f3887b62d1c4f8a1c040e4d1ef"
+    },
+    "supabase": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase/SKILL.md",
+      "computedHash": "598f357a3b6ecfbb96fac93c9ed0a5053f69191dbd7a333403c922df89a59056"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase-postgres-best-practices/SKILL.md",
+      "computedHash": "efc547df91cc56b69792532db54607027884cb5873718c7ca1ebf6d6f1e4cb53"
+    },
+    "tailwind": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind/SKILL.md",
+      "computedHash": "97bf0007f24e6275dcabc084c4d42f434ba48a84cec5a5b060036220239d6ddc"
+    },
+    "web-quality-audit": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-quality-audit/SKILL.md",
+      "computedHash": "48e90790e9269d46c6471bbc61d109db05bdc2ef834734dff21c039880934e9b"
+    }
+  }
+}

@@ -1,5 +1,3 @@
-import type { PropertyListing } from "@/models/property-model";
-
 type PropertyImageTheme = {
   sky: string;
   building: string;
@@ -14,7 +12,11 @@ function toDataUri(svg: string) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-function createPropertyImage(title: string, location: string, theme: PropertyImageTheme) {
+export function createPropertyImage(
+  title: string,
+  location: string,
+  theme: PropertyImageTheme,
+) {
   const shape =
     theme.shape === "villa"
       ? `
@@ -92,7 +94,7 @@ function createPropertyImage(title: string, location: string, theme: PropertyIma
   return toDataUri(svg);
 }
 
-export const properties: PropertyListing[] = [
+export const properties = [
   {
     id: "glass-pavilion",
     title: "The Glass Pavilion",

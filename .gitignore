@@ -10,8 +10,11 @@
 !.yarn/releases
 !.yarn/versions
 
-# codex
-/codex
+# agents/skils
+.agents/logs/
+.agents/cache/
+.agents/.env
+.agents/local_config.json
 
 # testing
 /coverage

@@ -13,6 +13,7 @@ export type PropertySurface = "collection" | "market";
 
 export type PropertyListing = {
   id: string;
+  slug: string;
   title: string;
   location: string;
   price: number;
@@ -21,10 +22,17 @@ export type PropertyListing = {
   beds: number;
   baths: number;
   area: number;
-  image: string;
+  latitude: number;
+  longitude: number;
+  imagesUrl: string[];
   badge: string;
   featured: boolean;
   surface: PropertySurface;
+};
+
+export type PropertyDetailsData = {
+  property: PropertyListing;
+  images: string[];
 };
 
 export const propertyTypes: Array<{
