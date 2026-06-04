@@ -3,7 +3,7 @@ import {
   type PropertyListing,
   type PropertySurface,
   type PropertyType,
-} from "@/components/home/property-model";
+} from "@/models/property-model";
 import { createClient } from "@/lib/supabase/server";
 
 const DEFAULT_PAGE = 1;

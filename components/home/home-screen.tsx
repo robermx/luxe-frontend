@@ -23,7 +23,7 @@ import {
   propertyTypes,
   type ListingMode,
   type PropertyType,
-} from "@/components/home/property-model";
+} from "@/models/property-model";
 import type { HomePropertiesPage } from "@/lib/supabase/home-properties";
 import { cn } from "@/lib/utils";
 

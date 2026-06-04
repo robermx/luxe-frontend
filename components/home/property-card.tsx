@@ -11,7 +11,7 @@ import {
   formatArea,
   formatPrice,
   type PropertyListing,
-} from "@/components/home/property-model";
+} from "@/models/property-model";
 import { cn } from "@/lib/utils";
 
 type PropertyCardProps = {

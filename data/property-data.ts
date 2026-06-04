@@ -1,4 +1,4 @@
-import type { PropertyListing } from "@/components/home/property-model";
+import type { PropertyListing } from "@/models/property-model";
 
 type PropertyImageTheme = {
   sky: string;
